@@ -1,0 +1,39 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ .Chart.Name }}
+spec:
+  schedule: "*/2 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: {{ .Chart.Name }}
+            image: {{ .Values.image.tag }}
+            imagePullPolicy: {{ .Values.image.pullPolicy }}
+            env:
+              - name: TWILIO_ACCOUNT_SID
+                value: "{{ .Values.twilio.accountSid }}"
+              - name: TWILIO_AUTH_TOKEN
+                value: "{{ .Values.twilio.authToken }}"
+              - name: TWILIO_TO_PHONE
+                value: "{{ .Values.twilio.toPhone }}"
+              - name: TWILIO_FROM_PHONE
+                value: "{{ .Values.twilio.fromPhone }}"
+              - name: LOCATION_LONGITUDE
+                value: "{{ .Values.location.longitude }}"
+              - name: LOCATION_LATITUDE
+                value: "{{ .Values.location.latitude }}"
+              - name: LOCATION_RADIUS
+                value: "{{ .Values.location.radius }}"
+              - name: VAX_IDS
+                value: "{{ join "," .Values.vaxIds }}"
+            resources:
+              requests:
+                cpu: "100m"
+                memory: "128Mi"
+              limits:
+                cpu: "200m"
+                memory: "256Mi"
+          restartPolicy: OnFailure

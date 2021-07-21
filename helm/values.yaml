@@ -1,0 +1,25 @@
+# Default values for vaccine-finder.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image: 
+  tag: vax-finder:latest
+  pullPolicy: IfNotPresent
+
+twilio:
+  accountSid:
+  authToken:
+  toPhone:
+  fromPhone:
+
+location:
+  longitude:
+  latitude:
+  radius: 50
+
+vaxIds:
+  - a84fb9ed-deb4-461c-b785-e17c782ef88b # Moderna
+  - 779bfe52-0dd8-4023-a183-457eb100fccc # Pfizer
+  #- 784db609-dc1f-45a5-bad6-8db02e79d44f # J&J
