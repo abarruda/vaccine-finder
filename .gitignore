@@ -1,3 +1,4 @@
 .DS_Store
 output.txt
 *wrapper.sh
+*run-rpi-cluster.sh
