@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: {{ .Chart.Name }}
 spec:
-  schedule: "*/2 * * * *"
+  schedule: "*/3 * * * *"
   jobTemplate:
     spec:
       template:
@@ -36,4 +36,17 @@ spec:
               limits:
                 cpu: "200m"
                 memory: "256Mi"
+          {{- if .Values.nodeAffinity }}
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: {{ .Values.nodeAffinity.label }}
+                    operator: In
+                    values: 
+                      {{- range .Values.nodeAffinity.values }}
+                      - {{ . }}
+                      {{- end }}
+          {{- end }}
           restartPolicy: OnFailure
